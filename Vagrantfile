@@ -8,12 +8,10 @@ docker rm $(docker ps -a -q)
 # Build containers from Dockerfiles
 docker build -t postgres /app/docker/postgres
 docker build -t rails /app
-docker build -t redis /app/docker/redis/
 
 # Run and link the containers
 docker run -d --name postgres -e POSTGRESQL_USER=docker -e POSTGRESQL_PASS=docker postgres:latest
-docker run -d --name redis redis:latest
-docker run -d -p 3000:3000 -v /app:/app --link redis:redis --link postgres:db --name rails rails:latest
+docker run -d -p 3000:3000 -v /app:/app --link postgres:db --name rails rails:latest
 
 SCRIPT
 
@@ -21,7 +19,6 @@ SCRIPT
 # are started when the vm is rebooted.
 $start = <<SCRIPT
 docker start postgres
-docker start redis
 docker start rails
 SCRIPT
 
@@ -31,7 +28,7 @@ Vagrant.configure("2") do |config|
 
   # Setup resource requirements
   config.vm.provider "virtualbox" do |v|
-    v.memory = 2048
+    v.memory = 1024
     v.cpus = 2
   end
 
@@ -42,7 +39,8 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 3000, host: 3000
 
   # Ubuntu
-  config.vm.box = "precise64"
+  config.vm.box = "hashicorp/precise64"
+  config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box"
 
   # Install latest docker
   config.vm.provision "docker"
