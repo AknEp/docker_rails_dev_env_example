@@ -25,3 +25,9 @@ $ ./d cmd "bundle exec rake db:create db:migrate"
 失敗した時は、 ```vagrant destroy``` で消し飛ばしましょう。 使い終わったら ```vagrant suspend``` / ```vagrant resume``` で一時停止と再開が出来ます。
 
 Windowsでは、Vagrantfileのsync_folderを書き換える必要がありそうです。 :smb にするだけで動くのかどうか、未検証です。
+
+### Rails 環境の動作確認
+
+http://localhost:3000/cars
+
+を見ると良いです。
