@@ -23,6 +23,22 @@ Things you may want to cover:
 
 * ...
 
+=== 実行方法
+
+まず、以下のものを導入します。
+
+* Vitrualbox
+* Vagrant
+
+次に、以下のコマンドを実行します。
+他のプロセスが3000番ポートを既に占有していないか注意して下さい。
+
+$ vagrant up
+$ ./d cmd "bundle exec rake db:create db:migrate"
+
+失敗した時は、 vagrant destroy で消し飛ばしましょう。 使い終わったら suspend / resume で停止と再開が出来ます。
+
+Windowsでは、Vagrantfileのsync_folderを書き換える必要がありそうです。
 
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
